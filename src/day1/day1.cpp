@@ -11,7 +11,7 @@ using namespace std;
 
 void part1() {
   std::ifstream input{
-    "/home/rishabh/personal/advent_of_code_2021/src/day1/part1"
+    "/home/rishabh/personal/advent_of_code_2021/src/day1/day1"
   };
   auto input_vec =
     std::ranges::istream_view<int>(input) | tl::to<std::vector>();
@@ -27,7 +27,7 @@ void part1() {
 
 void part2(){
   std::ifstream input{
-    "/home/rishabh/personal/advent_of_code_2021/src/day1/part2"
+    "/home/rishabh/personal/advent_of_code_2021/src/day1/day1"
   };
   auto input_vec =
     std::ranges::istream_view<int>(input) | tl::to<std::vector>();
