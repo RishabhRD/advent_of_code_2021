@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/rishabh/personal/advent_of_code_2021/build/src",
-  "command": "/usr/bin/g++  -I/home/rishabh/personal/advent_of_code_2021/src/../include -O2 -g -DNDEBUG -fdiagnostics-color=always -Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wunused -Woverloaded-virtual -Wpedantic -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -Werror -Wmisleading-indentation -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wuseless-cast -std=gnu++20 -o CMakeFiles/day1.dir/day1/day1.cpp.o -c /home/rishabh/personal/advent_of_code_2021/src/day1/day1.cpp",
-  "file": "/home/rishabh/personal/advent_of_code_2021/src/day1/day1.cpp"
-}
-]
