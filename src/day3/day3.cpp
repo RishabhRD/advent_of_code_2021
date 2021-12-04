@@ -82,7 +82,7 @@ std::vector<bit_count> accumulate_bit_count(
 }
 
 auto to_bits(const std::vector<bit_count> &b_counts) {
-  return vw::transform(b_counts, most_frequent_bit);
+  return b_counts | vw::transform(most_frequent_bit);
 }
 
 auto invert_bits(auto bits) { return vw::transform(bits, invert_bit); }
