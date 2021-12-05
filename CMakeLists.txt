@@ -19,21 +19,21 @@ if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
 endif()
 
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
-add_library(project_warnings INTERFACE)
+# add_library(project_warnings INTERFACE)
 
 # enable cache system
 include(cmake/Cache.cmake)
 
 # standard compiler warnings
-include(cmake/CompilerWarnings.cmake)
-set_project_warnings(project_warnings)
+# include(cmake/CompilerWarnings.cmake)
+# set_project_warnings(project_warnings)
 
 # sanitizer options if supported by compiler
-include(cmake/Sanitizers.cmake)
-enable_sanitizers(project_options)
+# include(cmake/Sanitizers.cmake)
+# enable_sanitizers(project_options)
 
 # allow for static analysis options
-include(cmake/StaticAnalyzers.cmake)
+# include(cmake/StaticAnalyzers.cmake)
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable Test Builds" OFF)

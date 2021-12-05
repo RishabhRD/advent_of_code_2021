@@ -24,4 +24,15 @@ macro(run_conan)
     BUILD
     missing)
 
+  conan_cmake_run(
+    REQUIRES
+    ${CONAN_EXTRA_REQUIRES}
+    ctre/3.4.1
+    OPTIONS
+    ${CONAN_EXTRA_OPTIONS}
+    BASIC_SETUP
+    CMAKE_TARGETS # individual targets to link to
+    BUILD
+    missing)
+
 endmacro()
