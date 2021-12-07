@@ -31,30 +31,29 @@ int get_median(const vector<int> &vec) {
   }
 }
 
-auto cost(const auto &positions, auto &&element_cost_function) {
-  auto transformed_vec =
-    positions | vw::transform(element_cost_function) | tl::to<std::vector>();
-  return accumulate(cbegin(transformed_vec), cend(transformed_vec), 0);
+int get_min_fuel_cost(char const *file, auto &&ele_pair_cost_func) {
+  auto positions = parse_input(file);
+  auto max_ele = *rng::max_element(positions);
+  auto costs = vw::iota(0, max_ele + 1) | vw::transform([&](auto to_pos) {
+    auto to_pos_costs = positions | vw::transform([=](auto from_pos) {
+      return ele_pair_cost_func(from_pos, to_pos);
+    }) | tl::to<std::vector>();
+    return accumulate(cbegin(to_pos_costs), cend(to_pos_costs), 0);
+  });
+  return *rng::min_element(costs);
 }
 
 void part1(char const *file) {
-  auto positions = parse_input(file);
-  rng::sort(positions);
-  int const median = get_median(positions);
-  cout << cost(positions, [=](auto num) { return abs(median - num); }) << endl;
+  cout << get_min_fuel_cost(file, [](auto from, auto to) {
+    return abs(to - from);
+  }) << endl;
 }
 
 void part2(char const *file) {
-  auto positions = parse_input(file);
-  rng::sort(positions);
-  auto max_ele = positions.back();
-  auto costs = vw::iota(0, max_ele + 1) | vw::transform([&](auto pos) {
-    return cost(positions, [=](auto ele) {
-      int n = abs(pos - ele);
-      return n * (n + 1) / 2;
-    });
-  });
-  cout << *rng::min_element(costs) << endl;
+  cout << get_min_fuel_cost(file, [](auto from, auto to) {
+    int n = abs(to - from);
+    return n * (n + 1) / 2;
+  }) << endl;
 }
 
 int main() {
