@@ -21,16 +21,6 @@ auto parse_input(char const *file) {
   }) | tl::to<std::vector>();
 }
 
-// precondition: vec is sorted
-int get_median(const vector<int> &vec) {
-  size_t mid_pos = size(vec) / 2;
-  if (size(vec) % 2 == 0) {
-    return (vec[mid_pos] + vec[mid_pos - 1]) / 2;
-  } else {
-    return vec[mid_pos];
-  }
-}
-
 int get_min_fuel_cost(char const *file, auto &&ele_pair_cost_func) {
   auto positions = parse_input(file);
   auto max_ele = *rng::max_element(positions);
