@@ -28,6 +28,7 @@ int get_min_fuel_cost(char const *file, auto &&ele_pair_cost_func) {
     auto to_pos_costs = positions | vw::transform([=](auto from_pos) {
       return ele_pair_cost_func(from_pos, to_pos);
     }) | tl::to<std::vector>();
+    // TODO: want std::ranges::fold here
     return accumulate(cbegin(to_pos_costs), cend(to_pos_costs), 0);
   });
   return *rng::min_element(costs);
