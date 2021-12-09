@@ -14,6 +14,12 @@ namespace rng = std::ranges;
 namespace vw = std::ranges::views;
 
 // TODO: how to yield r-value in generator
+// tl::generator<pair<int, int>> neighbors(int m, int n, int i, int j) {
+//   if (i > 0) co_yield { i - 1, j };
+//   if (j > 0) co_yield { i, j - 1 };
+//   if (i < m - 1) co_yield { i + 1, j };
+//   if (j < n - 1) co_yield { i, j + 1 };
+// }
 
 tl::generator<pair<int, int>> neighbors(int m, int n, int i, int j) {
   if (i > 0) {
@@ -37,8 +43,8 @@ tl::generator<pair<int, int>> neighbors(int m, int n, int i, int j) {
 tl::generator<pair<int, int>> low_point_heights(auto &matrix) {
   auto const m = size(matrix);
   auto const n = size(matrix[0]);
-  for (int i = 0; i < m; i++) {
-    for (int j = 0; j < n; j++) {
+  for (auto i : vw::iota(0u, m)) {
+    for (auto j : vw::iota(0u, n)) {
       auto neigh = neighbors(m, n, i, j);
       if (rng::all_of(neigh, [&matrix, i, j](auto node) {
             return matrix[node.first][node.second] > matrix[i][j];
@@ -104,8 +110,8 @@ void part2(char const *file) {
     })
     | vw::transform([](auto basin) { return rng::distance(basin); })
     | tl::to<vector>();
-  rng::sort(basin_sizes, greater<int>{});
-  cout << basin_sizes[0] * basin_sizes[1] * basin_sizes[2] << endl;
+  rng::partial_sort(basin_sizes, rng::begin(basin_sizes) + 3, rng::greater{});
+  cout << tl::fold(basin_sizes | vw::take(3), 1, std::multiplies<>{}) << endl;
 }
 
 int main() {
