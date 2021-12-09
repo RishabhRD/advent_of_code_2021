@@ -10,7 +10,7 @@ auto getline(char const *file) {
   std::ifstream stream{ file };
   std::vector<std::string> res;
   for(std::string line; getline(stream, line);){
-    res.emplace_back(std::move(line));
+    res.emplace_back(line);
   }
   return res;
 }
