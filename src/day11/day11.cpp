@@ -37,20 +37,31 @@ tl::generator<pair<int, int>> neighbors(int m, int n, int cur_x, int cur_y) {
   }
 }
 
+tl::generator<pair<int, int>> matrix_indecies(int const m, int const n) {
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      pair res{ i, j };
+      co_yield res;
+    }
+  }
+}
+
+auto opposite(auto &&func) {
+  return [&func](auto ele) { return !func(ele); };
+}
+
 int flow_lights(auto &&matrix) {
   int const m = size(matrix);
   int const n = size(matrix[0]);
-
-  set<pair<int, int>> to_glow;
-  set<pair<int, int>> next_to_glow;
-  for (int i = 0; i < m; i++) {
-    for (int j = 0; j < n; j++) {
-      if (matrix[i][j] > 9) to_glow.emplace(i, j);
-    }
-  }
   auto is_9_or_less = [&matrix](pair<int, int> p) {
     return matrix[p.first][p.second] <= 9;
   };
+  auto is_greater_than_9 = opposite(is_9_or_less);
+  set<pair<int, int>> to_glow;
+  set<pair<int, int>> next_to_glow;
+  for (auto [x, y] : matrix_indecies(m, n) | vw::filter(is_greater_than_9)) {
+    to_glow.emplace(x, y);
+  }
   while (not empty(to_glow)) {
     for (auto [x, y] : to_glow) {
       for (auto [new_x, new_y] :
@@ -62,13 +73,9 @@ int flow_lights(auto &&matrix) {
     to_glow = exchange(next_to_glow, {});
   }
   int score = 0;
-  for (int i = 0; i < m; i++) {
-    for (int j = 0; j < n; j++) {
-      if (matrix[i][j] > 9) {
-        matrix[i][j] = 0;
-        score++;
-      }
-    }
+  for (auto [x, y] : matrix_indecies(m, n) | vw::filter(is_greater_than_9)) {
+    matrix[x][y] = 0;
+    score++;
   }
   return score;
 }
@@ -89,9 +96,7 @@ auto next_step(auto &matrix) {
 void part1(char const *file) {
   auto matrix = parse_input(file);
   auto score = 0;
-  for(int i = 0; i < 100; i++){
-    score += next_step(matrix);
-  }
+  for (int i = 0; i < 100; i++) { score += next_step(matrix); }
   cout << score << endl;
 }
 
@@ -100,11 +105,9 @@ void part2(char const *file) {
   int const m = size(matrix);
   int const n = size(matrix[0]);
   int step = 1;
-  for(;; step++){
+  for (;; step++) {
     auto score = next_step(matrix);
-    if(score == m * n){
-      break;
-    }
+    if (score == m * n) { break; }
   }
   cout << step << endl;
 }
