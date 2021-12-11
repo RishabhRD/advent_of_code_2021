@@ -402,7 +402,6 @@ namespace tl {
          return *this;
       }
       constexpr basic_iterator& operator++() &
-         noexcept(noexcept(cursor().next()))
          requires cursor::next<C> {
          cursor().next();
          return *this;
@@ -462,14 +461,12 @@ namespace tl {
       }
 
       constexpr basic_iterator& operator+=(difference_type n) &
-         noexcept(noexcept(cursor().advance(n)))
          requires cursor::random_access<C> {
          cursor().advance(n);
          return *this;
       }
 
       constexpr basic_iterator& operator-=(difference_type n) &
-         noexcept(noexcept(cursor().advance(-n)))
          requires cursor::random_access<C> {
          cursor().advance(-n);
          return *this;
