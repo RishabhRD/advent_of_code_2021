@@ -4,6 +4,7 @@
 #include <concepts>
 #include <optional>
 #include <iterator>
+#include <functional>
 
 namespace tl {
 template<class F> struct flipped {
