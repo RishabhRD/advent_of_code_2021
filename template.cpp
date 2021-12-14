@@ -24,6 +24,6 @@ int main() {
     "/home/rishabh/personal/advent_of_code_2021/src/day9/day9.test";
   constexpr static char const *input_file =
     "/home/rishabh/personal/advent_of_code_2021/src/day9/day9.input";
-  part1(input_file);
-  part2(input_file);
+  part1(test_file);
+  part2(test_file);
 }
