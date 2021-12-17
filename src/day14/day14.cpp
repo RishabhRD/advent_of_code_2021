@@ -22,7 +22,7 @@ auto parse_polymer_template(string_view str) {
 }
 
 auto parse_input(char const *file) {
-  auto input = rd::getline(file);
+  auto input = rd::getlines(file) | tl::to<vector>();
   auto polymer_template = parse_polymer_template(input[0]);
   auto rules = input | views::drop(2) | views::transform([](string_view str) {
     auto m = ctre::match<"(.+) -> (.)">(str);

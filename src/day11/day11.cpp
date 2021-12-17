@@ -17,8 +17,7 @@ namespace vw = std::ranges::views;
 
 
 auto parse_input(char const *file) {
-  auto input = rd::getline(file);
-  return input | vw::transform([](string_view line) {
+  return rd::getlines(file) | vw::transform([](auto line) {
     return line | vw::transform([](auto c) { return c - '0'; })
            | tl::to<vector>();
   }) | tl::to<vector>();

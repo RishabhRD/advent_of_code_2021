@@ -57,8 +57,7 @@ tl::generator<pair<int, int>> low_point_heights(auto &matrix) {
 }
 
 auto parse_input(char const *file) {
-  auto input = rd::getline(file);
-  return input | vw::transform([](string_view str) {
+  return rd::getlines(file) | vw::transform([](string_view str) {
     return str | vw::transform([](auto c) { return c - '0'; })
            | tl::to<vector>();
   }) | tl::to<vector>();

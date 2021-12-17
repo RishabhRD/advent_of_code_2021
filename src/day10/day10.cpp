@@ -12,7 +12,7 @@ using namespace std;
 namespace rng = std::ranges;
 
 auto parse_input(char const *file) {
-  auto lines = rd::getline(file);
+  auto lines = rd::getlines(file);
   return lines;
 }
 

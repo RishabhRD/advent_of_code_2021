@@ -85,8 +85,7 @@ auto decode_representation(const display &display) {
 }
 
 auto parse_displays(char const *file) {
-  auto lines = rd::getline(file);
-  return lines | vw::transform(parse_display) | tl::to<vector>();
+  return rd::getlines(file) | vw::transform(parse_display) | tl::to<vector>();
 }
 
 void part1(char const *file) {

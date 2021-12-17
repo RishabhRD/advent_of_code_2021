@@ -4,20 +4,20 @@
 #include <tl/to.hpp>
 #include <fstream>
 #include <vector>
-#include <tl/generator.hpp>
+#include <rd/generator.hpp>
 
 namespace rd {
 
-auto getline(char const *file) {
-  std::ifstream stream{ file };
-  std::vector<std::string> res;
-  for (std::string line; getline(stream, line);) { res.emplace_back(line); }
-  return res;
-}
-
-tl::generator<std::string> getline_view(char const *file) {
+rd::generator<std::string> getlines(char const *file) {
   std::ifstream stream{ file };
   for (std::string line; getline(stream, line);) { co_yield line; }
+}
+
+std::string getline(char const* file){
+  std::ifstream stream{ file };
+  std::string line;
+  getline(stream, line);
+  return line;
 }
 
 }// namespace rd

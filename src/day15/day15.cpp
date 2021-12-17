@@ -11,7 +11,7 @@ using namespace std;
 using size_type = unsigned long long;
 
 auto parse_input(char const *file) {
-  return rd::getline_view(file) | views::transform([](string_view str) {
+  return rd::getlines(file) | views::transform([](string_view str) {
     return str | views::transform([](auto c) {
       return static_cast<size_type>(c - '0');
     }) | tl::to<vector>();

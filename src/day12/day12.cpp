@@ -16,7 +16,7 @@ bool is_big(string_view str) { return isupper(str[0]); }
 bool is_small(string_view str) { return islower(str[0]); }
 
 auto parse_input(char const *file) {
-  auto lines = rd::getline(file);
+  auto lines = rd::getlines(file);
   unordered_map<string, unordered_set<string>> graph;
   for (string_view line : lines) {
     auto nodes = line | vw::split('-') | vw::transform([](auto str) {

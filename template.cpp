@@ -5,12 +5,8 @@
 
 using namespace std;
 
-namespace rng = std::ranges;
-namespace vw = std::ranges::views;
-
-
 auto parse_input(char const* file){
-  auto input = rd::getline(file);
+  auto input = rd::getlines(file);
 }
 
 void part1(char const* file){

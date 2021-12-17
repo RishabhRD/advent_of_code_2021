@@ -60,7 +60,7 @@ auto to_axis(auto &&rng) {
 }
 
 auto parse_input(char const *file) {
-  auto input = rd::getline(file);
+  auto input = rd::getlines(file) | tl::to<vector>();
   auto empty_line = rng::find(input, "");
   auto points =
     rng::subrange(rng::begin(input), empty_line)
