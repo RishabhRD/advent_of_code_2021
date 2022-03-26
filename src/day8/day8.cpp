@@ -1,9 +1,9 @@
 #include <bitset>
-#include <ranges>
-#include <numeric>
-#include <tl/to.hpp>
-#include <iostream>
 #include <getline.hpp>
+#include <iostream>
+#include <numeric>
+#include <ranges>
+#include <tl/to.hpp>
 
 using namespace std;
 
@@ -20,19 +20,22 @@ struct display {
 display parse_display(string_view line) {
   auto to_digit = [](auto rng) {
     digit d;
-    for (auto c : rng) { d[c - 'a'] = true; }
+    for (auto c : rng) {
+      d[c - 'a'] = true;
+    }
     return d;
   };
-  auto representations = line | vw::split(' ') | vw::take(10)
-                         | vw::transform(to_digit) | tl::to<vector>();
-  auto outupt = line | vw::split(' ') | vw::drop(11) | vw::transform(to_digit)
-                | tl::to<vector>();
-  return { std::move(representations), std::move(outupt) };
+  auto representations = line | vw::split(' ') | vw::take(10) |
+                         vw::transform(to_digit) | tl::to<vector>();
+  auto outupt = line | vw::split(' ') | vw::drop(11) | vw::transform(to_digit) |
+                tl::to<vector>();
+  return {std::move(representations), std::move(outupt)};
 }
 
 auto opposite(auto &&predicate) {
-  return [predicate = std::forward<decltype(predicate)>(predicate)](
-           auto i) { return !predicate(i); };
+  return [predicate = std::forward<decltype(predicate)>(predicate)](auto i) {
+    return !predicate(i);
+  };
 }
 
 auto front(auto input) { return *rng::begin(input); }
@@ -53,20 +56,14 @@ auto decode_representation(const display &display) {
       mappings[8] = dig;
   }
 
-  auto contains_n = [&mappings](int num){
-    return [num, &mappings](digit d){
-      return contains(d, mappings[num]);
-    };
+  auto contains_n = [&mappings](int num) {
+    return [num, &mappings](digit d) { return contains(d, mappings[num]); };
   };
-  auto contained_by_n = [&mappings](int num){
-    return [num, &mappings](digit d){
-      return contains(mappings[num], d);
-    };
+  auto contained_by_n = [&mappings](int num) {
+    return [num, &mappings](digit d) { return contains(mappings[num], d); };
   };
-  auto len_of = [](int len){
-    return [len](digit d){
-      return d.count() == len;
-    };
+  auto len_of = [](int len) {
+    return [len](digit d) { return d.count() == len; };
   };
 
   auto six_len_ele = rep | vw::filter(len_of(6));
@@ -77,7 +74,7 @@ auto decode_representation(const display &display) {
 
   auto five_len_ele = rep | vw::filter(len_of(5));
   mappings[3] = front(five_len_ele | vw::filter(contains_n(1)));
-  auto five_or_two =  five_len_ele | vw::filter(opposite(contains_n(1)));
+  auto five_or_two = five_len_ele | vw::filter(opposite(contains_n(1)));
   mappings[5] = front(five_or_two | vw::filter(contained_by_n(6)));
   mappings[2] = front(five_or_two | vw::filter(opposite(contained_by_n(6))));
 
@@ -90,24 +87,26 @@ auto parse_displays(char const *file) {
 
 void part1(char const *file) {
   auto displays = parse_displays(file);
-  cout << accumulate(
-    cbegin(displays), cend(displays), 0, [](auto cur, auto &&display) {
-      return cur + rng::count_if(display.output, [](auto bits) {
-        return bits.count() == 2 || bits.count() == 3 || bits.count() == 4
-               || bits.count() == 7;
-      });
-    }) << endl;
+  cout << accumulate(cbegin(displays), cend(displays), 0,
+                     [](auto cur, auto &&display) {
+                       return cur +
+                              rng::count_if(display.output, [](auto bits) {
+                                return bits.count() == 2 || bits.count() == 3 ||
+                                       bits.count() == 4 || bits.count() == 7;
+                              });
+                     })
+       << endl;
 }
 
 auto to_decimal(const display &display) {
   auto const mappings = decode_representation(display);
   auto nums = display.output | vw::transform([&mappings](auto dig) {
-    auto dist = rng::find(mappings, dig) - rng::cbegin(mappings);
-    return dist;
-  }) | tl::to<std::vector>();
-  auto num = accumulate(cbegin(nums), cend(nums), 0, [](auto init, auto ele) {
-    return init * 10 + ele;
-  });
+                auto dist = rng::find(mappings, dig) - rng::cbegin(mappings);
+                return dist;
+              }) |
+              tl::to<std::vector>();
+  auto num = accumulate(cbegin(nums), cend(nums), 0,
+                        [](auto init, auto ele) { return init * 10 + ele; });
   return num;
 }
 
@@ -119,9 +118,9 @@ void part2(char const *file) {
 
 int main() {
   constexpr static char const *test_file =
-    "/home/rishabh/personal/advent_of_code_2021/src/day8/day8.test";
+      "/home/rishabh/personal/advent_of_code_2021/src/day8/day8.test";
   constexpr static char const *input_file =
-    "/home/rishabh/personal/advent_of_code_2021/src/day8/day8.input";
+      "/home/rishabh/personal/advent_of_code_2021/src/day8/day8.input";
   part1(input_file);
   part2(input_file);
 }
